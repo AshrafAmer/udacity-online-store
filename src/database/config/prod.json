@@ -1,0 +1,9 @@
+{
+    "prod": {
+        "driver": "",
+        "host": "",
+        "database": "",
+        "user": "",
+        "password": ""
+    }
+}

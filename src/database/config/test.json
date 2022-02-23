@@ -1,0 +1,9 @@
+{
+    "test": {
+        "driver": "",
+        "host": "",
+        "database": "",
+        "user": "",
+        "password": ""
+    }
+}
