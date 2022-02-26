@@ -1,9 +1,9 @@
 import express, {Request, Response} from 'express';
-import { RequiredParamsIdError } from '../../errors/RequiredParamsIdError';
-const userRouter = express.Router();
 import { User } from './../models/User'; 
 import { User as UserType } from './../types/User'; 
+import { RequiredParamsIdError } from '../../errors/RequiredParamsIdError';
 
+const userRouter = express.Router();
 const userInstance = User.createObject() as User;
 
 userRouter.get(
