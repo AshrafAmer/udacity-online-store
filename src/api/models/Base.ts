@@ -1,4 +1,5 @@
 import { QueryResult } from 'pg';
+import { NoExistDataForThisIdError } from '../../errors/NoExistDataForThisIdError';
 import Client from './../../database/database';
 
 export abstract class Base {
@@ -6,6 +7,7 @@ export abstract class Base {
     protected static instance: Base;
     protected abstract table: string;
     protected abstract createSql: string;
+    public abstract validate(body: any): void;
     private createConfig: any[] = [];
 
     public static createObject(): Base {
@@ -21,6 +23,9 @@ export abstract class Base {
     public async show(id: string|number): Promise<any[]> {
         const showSql = `SELECT * FROM ${this.table} WHERE id=($1)`;
         const result = await this.runQuery(showSql, [id]);
+        if ( !result.length ) {
+            throw new NoExistDataForThisIdError(this.table, id);
+        }
         return result[0];
     }
 

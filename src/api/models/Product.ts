@@ -13,4 +13,8 @@ export class Product extends Base {
         this.setCreateConfig([product.name, product.price, product.categoryId]);
     }
 
+    public validate(body: any): void {
+        // implemented later
+    }
+
 }

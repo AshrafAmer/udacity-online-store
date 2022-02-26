@@ -1,6 +1,8 @@
 import bcrypt from 'bcrypt';
 import { Base } from './Base';
 import { User as UserType } from './../types/User';
+import { ValidationRequiredFieldsError } from '../../errors/ValidationRequiredFieldsError';
+import { PasswordValidationError } from '../../errors/PasswordValidationError';
 
 export class User extends Base {
 
@@ -11,7 +13,7 @@ export class User extends Base {
         INSERT INTO users (firstName, lastName, password)
         VALUES($1, $2, $3) RETURNING *`;
 
-    protected async createUser(user: UserType): Promise<void> {
+    public async createUser(user: UserType): Promise<void> {
         const hashed = bcrypt.hashSync(
             user.password + process.env.BCRYPT_PASSWORD, 
             parseInt(process.env.SALT_ROUNDS as string)
@@ -35,6 +37,20 @@ export class User extends Base {
         }
     
         return null
+    }
+
+    public validate(body: UserType): void {
+        if ( !body.firstName ) {
+            throw new ValidationRequiredFieldsError('first name');
+        }
+
+        if ( !body.lastName ) {
+            throw new ValidationRequiredFieldsError('last name');
+        }
+
+        if ( !body.password || body.password.length < 5 ) {
+            throw new PasswordValidationError(5);
+        }
     }
 
 }
