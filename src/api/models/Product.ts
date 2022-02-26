@@ -1,5 +1,6 @@
 import { Base } from './Base';
 import { Product as ProductType } from './../types/Product';
+import { ValidationRequiredFieldsError } from '../../errors/ValidationRequiredFieldsError';
 
 export class Product extends Base {
 
@@ -9,12 +10,34 @@ export class Product extends Base {
         `INSERT INTO products (name, price, category_id)
         VALUES($1, $2, $3) RETURNING *`;
 
-    protected async createProduct(product: ProductType): Promise<void> {        
+    public async createProduct(product: ProductType): Promise<void> {
         this.setCreateConfig([product.name, product.price, product.categoryId]);
     }
 
-    public validate(body: any): void {
-        // implemented later
+    public async topFive(): Promise<Product[]> {
+        const sql = `select * from products order by id desc limit 5`;
+        const result = await this.runQuery(sql);
+        return result;
+    }
+
+    public async byCategoryId(categoryId: string): Promise<void> {
+        const sql = 'select * from products WHERE category_id=($1)';
+        const result = await this.runQuery(sql, [categoryId]);
+        return result;
+    }
+
+    public validate(body: ProductType): void {
+        if ( !body.name ) {
+            throw new ValidationRequiredFieldsError('product name');
+        }
+
+        if ( !body.price ) {
+            throw new ValidationRequiredFieldsError('product price');
+        }
+
+        if ( !body.categoryId ) {
+            throw new ValidationRequiredFieldsError('product category id');
+        }
     }
 
 }

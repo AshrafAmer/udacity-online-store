@@ -1,4 +1,4 @@
-import express, {Request, Response} from 'express';
+import express, { Request, Response } from 'express';
 import { User } from './../models/User'; 
 import { User as UserType } from './../types/User'; 
 import { RequiredParamsIdError } from '../../errors/RequiredParamsIdError';
