@@ -1,6 +1,5 @@
 import express, { Request, Response } from 'express';
 import { Order } from '../models/Order';
-import { Order as OrderType } from '../types/Order'; 
 import { RequiredParamsIdError } from '../../errors/RequiredParamsIdError';
 
 const orderRouter = express.Router();
