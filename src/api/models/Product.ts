@@ -15,7 +15,12 @@ export class Product extends Base {
     }
 
     public async topFive(): Promise<Product[]> {
-        const sql = `select * from products order by id desc limit 5`;
+        // most popular => most ordered...
+        const sql = `SELECT products.*, count(order_items.product_id) as popular
+            FROM products
+            INNER JOIN order_items
+            ON products.id = order_items.product_id
+            order by popular desc limit 5`;
         const result = await this.runQuery(sql);
         return result;
     }
