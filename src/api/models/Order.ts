@@ -15,13 +15,22 @@ export class Order extends Base {
     }
 
     public async allUserOrders(userId: string): Promise<void> {
-        const sql = 'select * from orders WHERE user_id=($1)';
+        const sql = `SELECT orders.*, items.quantity, items.amount, items.product_id
+            FROM orders
+            INNER JOIN order_items As items
+            ON orders.id = items.order_id
+            WHERE orders.user_id=($1)`;
         const result = await this.runQuery(sql, [userId]);
         return result;
     }
 
     public async userCompletedOrders(userId: string): Promise<void> {
-        const sql = 'select * from orders WHERE user_id=($1) AND status=($2)';
+        const sql = `SELECT orders.*, items.quantity, items.amount, items.product_id
+        FROM orders
+        INNER JOIN order_items As items
+        ON orders.id = items.order_id
+        WHERE orders.user_id=($1) AND orders.status=($2)`;
+        
         const result = await this.runQuery(sql, [userId, 'complete']);
         return result;
     }
