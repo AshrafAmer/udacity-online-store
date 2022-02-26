@@ -2,11 +2,12 @@
   "name": "storefront_backend",
   "version": "0.1.0",
   "description": "",
-  "main": "server.ts",
+  "main": "build/server.ts",
   "scripts": {
-    "start": "node src/server.ts",
+    "start": "node build/server.js",
     "watch": "tsc-watch --esModuleInterop src/server.ts --outDir ./dist --onSuccess 'node ./dist/server.js'",
     "test": "ENV=test db-migrate --env test --config ./config/test.json up && jasmine-ts && db-migrate db:drop test",
+    "build": "npx tsc",
     "tsc": "tsc",
     "db.migrate": "cd ./src/database && db-migrate up --config ./config/dev.json",
     "db.rollback": "cd ./src/database && db-migrate down --config ./config/dev.json"
