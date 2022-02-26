@@ -4,7 +4,7 @@ enum Status {
 }
 
 export type Order = {
-    id: Number;
+    id?: Number;
     userId: string;
     status: Status;
     totalAmount: number;

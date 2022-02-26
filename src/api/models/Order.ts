@@ -1,5 +1,6 @@
 import { Base } from './Base';
 import { Order as OrderType } from '../types/Order';
+import { ValidationRequiredFieldsError } from '../../errors/ValidationRequiredFieldsError';
 
 export class Order extends Base {
 
@@ -13,8 +14,30 @@ export class Order extends Base {
         this.setCreateConfig([order.userId, order.status, order.totalAmount]);
     }
 
-    public validate(body: any): void {
-        // implemented later
+    public async allUserOrders(userId: string): Promise<void> {
+        const sql = 'select * from orders WHERE user_id=($1)';
+        const result = await this.runQuery(sql, [userId]);
+        return result;
+    }
+
+    public async userCompletedOrders(userId: string): Promise<void> {
+        const sql = 'select * from orders WHERE user_id=($1) AND status=($2)';
+        const result = await this.runQuery(sql, [userId, 'complete']);
+        return result;
+    }
+
+    public validate(body: OrderType): void {
+        if ( !body.userId ) {
+            throw new ValidationRequiredFieldsError('user id');
+        }
+
+        if ( !body.status ) {
+            throw new ValidationRequiredFieldsError('status');
+        }
+
+        if ( !body.totalAmount ) {
+            throw new ValidationRequiredFieldsError('total amount');
+        }
     }
 
 }
