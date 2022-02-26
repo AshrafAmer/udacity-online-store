@@ -3,6 +3,7 @@ import { Order as OrderType } from '../types/Order';
 
 export class Order extends Base {
 
+    protected static instance: Base = new this();
     protected table = 'orders';
     protected createSql = 
         `INSERT INTO orders (user_id, status, total_amount)

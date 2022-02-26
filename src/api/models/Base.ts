@@ -3,10 +3,15 @@ import Client from './../../database/database';
 
 export abstract class Base {
 
+    protected static instance: Base;
     protected abstract table: string;
     protected abstract createSql: string;
     private createConfig: any[] = [];
-    
+
+    public static createObject(): Base {
+        return this.instance;
+    }
+
     public async index(): Promise<any[]> {
         const indexSql = `SELECT * FROM ${this.table}`;
         const result = await this.runQuery(indexSql);

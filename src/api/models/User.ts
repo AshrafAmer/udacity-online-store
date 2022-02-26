@@ -4,6 +4,8 @@ import { User as UserType } from './../types/User';
 
 export class User extends Base {
 
+    // By default implemented inside constructor()
+    protected static instance: Base = new this();
     protected table = 'users';
     protected createSql = `
         INSERT INTO users (firstName, lastName, password)

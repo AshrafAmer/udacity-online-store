@@ -3,6 +3,7 @@ import { Product as ProductType } from './../types/Product';
 
 export class Product extends Base {
 
+    protected static instance: Base = new this();
     protected table = 'products';
     protected createSql = 
         `INSERT INTO products (name, price, category_id)
