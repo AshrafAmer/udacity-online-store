@@ -43,8 +43,8 @@ productRouter.get(
         }
 
         try {
-            const user = await productInstance.show(id);
-            res.status(200).json(user);
+            const product = await productInstance.show(id);
+            res.status(200).json(product);
         } catch ( err ) {
             res.status(400).send(err);
         }
@@ -57,11 +57,11 @@ productRouter.post(
         const { name, price, categoryId } = req.body;
         
         try {
-            const userDate: ProductType = { name, price, categoryId };
-            await productInstance.validate(userDate);
-            await productInstance.createProduct(userDate);
-            const user = await productInstance.create();
-            res.status(200).json(user);
+            const productDate: ProductType = { name, price, categoryId };
+            await productInstance.validate(productDate);
+            await productInstance.createProduct(productDate);
+            const product = await productInstance.create();
+            res.status(200).json(product);
         } catch ( err ) {
             res.status(400).send(err);
         }
