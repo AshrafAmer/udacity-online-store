@@ -1,7 +1,8 @@
-import express, { Request, Response } from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 import { Product } from '../models/Product';
 import { Product as ProductType } from '../types/Product'; 
 import { RequiredParamsIdError } from '../../errors/RequiredParamsIdError';
+import { validateAuth } from '../../middlewares/authMiddleware';
 
 const productRouter = express.Router();
 const productInstance = Product.createObject() as Product;
@@ -53,7 +54,9 @@ productRouter.get(
 
 productRouter.post(
     '/',
-    async (req: Request, res: Response) => {
+    async (req: Request, res: Response, next: NextFunction) => {
+
+        await validateAuth(req, res, next);
         const { name, price, categoryId } = req.body;
         
         try {

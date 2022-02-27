@@ -19,7 +19,7 @@ authRouter.post(
                 res.status(401).json({message: 'un-authorized user'});
             }
             const token = jwt.sign({user}, `${process.env.JWT_TOKEN_SECRET}`);
-            res.status(200).json({user, token});
+            res.status(200).json({token});
         } catch ( err ) {
             res.status(400).send(err);
         }

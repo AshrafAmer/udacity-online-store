@@ -26,13 +26,11 @@ export class User extends Base {
         const sql = 'SELECT password FROM users WHERE username=($1)'
         const result = await this.runQuery(sql, [username]);
         const pepper = process.env.BCRYPT_PASSWORD;
-        console.log(password+pepper)
 
         if(result.length) {
-            const user = result[0]
-            console.log(user)
+            const user = result[0];
             if (bcrypt.compareSync(password+pepper, user.password)) {
-                return user
+                return user;
             }
         }
 
