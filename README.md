@@ -1,11 +1,23 @@
 # Storefront Backend Project
 
-## Getting Started
+## Getting Started (How it works)
 
-This repo contains a basic Node and Express app to get you started in constructing an API. To get started, clone this repo and run `yarn` in your terminal at the project root.
+1- Clone this project to your machine.
+<br>
+2- Copy `.env.example` to `.env`.
+<br>
+3- Configure `.env` variables.
+<br>
+4- Configure database for `prod` and `test`.
+<br>
+5- Run command `yarn db.migrate` to create database.
+<br>
+6- seed
+<br>
+7- Run `yarn start` to build project and run server.
 
-## Required Technologies
-Your application must make use of the following libraries:
+
+## Used Technologies
 - Postgres for the database
 - Node/Express for the application logic
 - dotenv from npm for managing environment variables
@@ -15,40 +27,55 @@ Your application must make use of the following libraries:
 
 ## Steps to Completion
 
-### 1. Plan to Meet Requirements
+### 1. RESTful APIs (Endpoints)
 
-In this repo there is a `REQUIREMENTS.md` document which outlines what this API needs to supply for the frontend, as well as the agreed upon data shapes to be passed between front and backend. This is much like a document you might come across in real life when building or extending an API. 
+**Categories**: 
+- A CREATE route: 'categories' [POST] 
+- A READ route: 'categories' [GET] 
+- A SHOW route: 'categories/:id' [GET] 
 
-Your first task is to read the requirements and update the document with the following:
-- Determine the RESTful route for each endpoint listed. Add the RESTful route and HTTP verb to the document so that the frontend developer can begin to build their fetch requests.    
-**Example**: A SHOW route: 'blogs/:id' [GET] 
 
-- Design the Postgres database tables based off the data shape requirements. Add to the requirements document the database tables and columns being sure to mark foreign keys.   
-**Example**: You can format this however you like but these types of information should be provided
-Table: Books (id:varchar, title:varchar, author:varchar, published_year:varchar, publisher_id:string[foreign key to publishers table], pages:number)
+**Products**: 
+- A CREATE route: 'products' [POST] 
+- A READ route: 'products' [GET] 
+- A SHOW route: 'products/:id' [GET] 
+- A SHOW route: 'products/top-products' [GET] => top 5 popular products.
+- A SHOW route: 'products/by-category/:id' [GET] => return products by category id.
 
-**NOTE** It is important to remember that there might not be a one to one ratio between data shapes and database tables. Data shapes only outline the structure of objects being passed between frontend and API, the database may need multiple tables to store a single shape. 
 
-### 2.  DB Creation and Migrations
+**Users**: 
+- A CREATE route: 'users' [POST] 
+- A READ route: 'users' [GET] 
+- A SHOW route: 'users/:id' [GET] 
 
-Now that you have the structure of the databse outlined, it is time to create the database and migrations. Add the npm packages dotenv and db-migrate that we used in the course and setup your Postgres database. If you get stuck, you can always revisit the database lesson for a reminder. 
 
-You must also ensure that any sensitive information is hashed with bcrypt. If any passwords are found in plain text in your application it will not pass.
+**Auth**: 
+- A LOGIN route: 'auth/login' [POST] 
 
-### 3. Models
+**Orders**: 
+- all user orders: 'orders/user-all-orders/:id' [GET] 
+- all user complete orders: 'orders/user-complete-orders/:id' [GET] 
 
-Create the models for each database table. The methods in each model should map to the endpoints in `REQUIREMENTS.md`. Remember that these models should all have test suites and mocks.
 
-### 4. Express Handlers
+### 2. Database Scheme
 
-Set up the Express handlers to route incoming requests to the correct model method. Make sure that the endpoints you create match up with the enpoints listed in `REQUIREMENTS.md`. Endpoints must have tests and be CORS enabled. 
+categories | #id | #name
+--- | --- | ---
 
-### 5. JWTs
+products | #id | #name | #price | #category_id
+--- | --- | --- | --- | ---
 
-Add JWT functionality as shown in the course. Make sure that JWTs are required for the routes listed in `REQUIUREMENTS.md`.
+orders | #id | #user_id | #status | #total_amount
+--- | --- | --- | --- | ---
 
-### 6. QA and `README.md`
+order_items | #id | #order_id | #product_id | #quantity | #amount
+--- | --- | --- | --- | --- | ---
 
-Before submitting, make sure that your project is complete with a `README.md`. Your `README.md` must include instructions for setting up and running your project including how you setup, run, and connect to your database. 
+users | #id | #first_name | #last_name | #username | #password
+--- | --- | --- | --- | --- | ---
 
-Before submitting your project, spin it up and test each endpoint. If each one responds with data that matches the data shapes from the `REQUIREMENTS.md`, it is ready for submission!
+### 3. Database Relations
+ - categories has many products (1-m).
+ - orders contain many products (m-m).
+ - user create many orders (1-m).
+
