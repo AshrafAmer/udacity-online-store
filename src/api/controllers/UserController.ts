@@ -34,10 +34,10 @@ userRouter.get(
 userRouter.post(
     '/',
     async (req: Request, res: Response) => {
-        const { firstName, lastName, password } = req.body;
+        const { firstName, lastName, username, password } = req.body;
         
         try {
-            const userDate: UserType = { firstName, lastName, password };
+            const userDate: UserType = { firstName, lastName, username, password };
             await userInstance.validate(userDate);
             await userInstance.createUser(userDate);
             const user = await userInstance.create();
