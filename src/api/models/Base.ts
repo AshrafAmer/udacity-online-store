@@ -20,7 +20,7 @@ export abstract class Base {
         return result;
     }
 
-    public async show(id: string|number): Promise<any[]> {
+    public async show(id: string|number): Promise<any> {
         const showSql = `SELECT * FROM ${this.table} WHERE id=($1)`;
         const result = await this.runQuery(showSql, [id]);
         if ( !result.length ) {
@@ -29,13 +29,13 @@ export abstract class Base {
         return result[0];
     }
 
-    public async create(): Promise<any[]> {
+    public async create(): Promise<any> {
         const options = await this.getCreateConfig();
         const result = await this.runQuery(this.createSql, options);
         return result[0];
     }
 
-    public async delete(id: string|number): Promise<any[]> {
+    public async delete(id: string|number): Promise<any> {
         const deleteSql = `DELETE FROM ${this.table} WHERE id=($1)`;
         const result = await this.runQuery(deleteSql, [id]);
         return result[0];
