@@ -6,10 +6,11 @@
   "scripts": {
     "start": "npx tsc && node build/server.js",
     "watch": "tsc-watch --esModuleInterop src/server.ts --outDir ./dist --onSuccess 'node ./dist/server.js'",
-    "test": "ENV=test db-migrate --env test --config ./config/test.json up && jasmine-ts && db-migrate db:drop test",
+    "test": "yarn build && yarn db.migrate-test && jasmine",
     "build": "npx tsc",
     "tsc": "tsc",
     "db.migrate": "cd ./src/database && db-migrate up --config ./config/dev.json",
+    "db.migrate-test": "cd ./src/database && ENV=test db-migrate up --config ./config/test.json -e test",
     "db.rollback": "cd ./src/database && db-migrate down --config ./config/dev.json"
   },
   "author": "Udacity",
@@ -35,7 +36,7 @@
     "@types/pg": "^7.14.7",
     "jasmine": "^4.0.2",
     "jasmine-spec-reporter": "^6.0.0",
-    "jasmine-ts": "^0.3.0",
+    "jasmine-ts": "^0.4.0",
     "ts-node": "^9.1.1",
     "tsc-watch": "^4.2.9"
   }

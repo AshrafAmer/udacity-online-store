@@ -1,9 +1,9 @@
 {
     "dev": {
-        "driver": "pg",
-        "host": "127.0.0.1",
-        "database": "online_store",
-        "user": "postgres",
-        "password": "root"
+        "driver": "",
+        "host": "",
+        "database": "",
+        "user": "",
+        "password": ""
     }
 }

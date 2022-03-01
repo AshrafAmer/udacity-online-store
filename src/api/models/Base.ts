@@ -5,7 +5,9 @@ import Client from './../../database/database';
 export abstract class Base {
 
     /*
-        # This abstract class use `any` type => but childs classes custom any type to data type.
+        # This abstract class use `any` type 
+        => but childs classes custom any type to data type.
+        => any in child classess will be [User, Category, Product, and so on]
     */
 
     protected static instance: Base;
