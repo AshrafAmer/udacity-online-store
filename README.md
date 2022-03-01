@@ -28,3 +28,6 @@
 - jsonwebtoken from npm for working with JWTs
 - jasmine from npm for testing
 
+## Server Config:
+- PORT: `3000`
+- Server run on Address: `0.0.0.0:3000`

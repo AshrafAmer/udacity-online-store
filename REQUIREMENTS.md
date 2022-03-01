@@ -15,17 +15,21 @@
 
 
 **Users**: 
-- A CREATE route: 'users' [POST] 
-- A READ route: 'users' [GET] 
-- A SHOW route: 'users/:id' [GET] 
+- endpoint: `0.0.0.0:3000/users`
+- A CREATE route: '/' [POST] 
+- A READ route: '/' [GET] 
+- A SHOW route: '/:id' [GET] 
 
 
 **Auth**: 
-- A LOGIN route: 'auth/login' [POST] 
+- endpoint: `0.0.0.0:3000/auth`
+- A LOGIN - VALIDATE route: '/login' [POST] 
+- A REGISTER - CREATE route: '/register' [POST] 
 
 **Orders**: 
-- all user orders: 'orders/user-all-orders/:id' [GET] 
-- all user complete orders: 'orders/user-complete-orders/:id' [GET] 
+- endpoint: `0.0.0.0:3000/orders`
+- all user orders: '/user-all-orders/:id' [GET] 
+- all user complete orders: '/user-complete-orders/:id' [GET] 
 
 
 ## Database Scheme
@@ -49,3 +53,46 @@ users | #id | #first_name | #last_name | #username | #password
  - categories has many products (1-m).
  - orders contain many products (m-m).
  - user create many orders (1-m).
+
+## DataBase Setup:
+- host: `127.0.0.1`
+- driver: `pg`
+- user: `udacity`
+- password: `udacityPass`
+- DEV database: `online_store`
+- TEST database: `online_store_test`
+
+```
+> sudo -i -u postgres
+> psql 
+```
+
+``` 
+> CREATE USER udacity WITH PASSWORD 'udacityPass';
+```
+
+``` 
+> CREATE DATABASE online_store;
+```
+``` 
+> CREATE DATABASE online_store_test;
+```
+
+```
+> GRANT ALL PRIVILEGES ON DATABASE online_store TO udacity;
+> GRANT ALL PRIVILEGES ON DATABASE online_store_test TO udacity;
+```
+
+- Run Migrations `yarn run db.migrate`, just follow steps on README.md;
+
+- Open postman and call POST: `0.0.0.0:3000/auth/register` with body: 
+``` 
+{
+    "firstName": "",
+    "lastName" : "",
+    "username" : "",
+    "password" : "",
+}
+```
+
+- Response user data and `token` => use this token to access routes that need token.

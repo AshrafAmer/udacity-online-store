@@ -25,7 +25,7 @@ export class Product extends Base {
         return result;
     }
 
-    public async byCategoryId(categoryId: string): Promise<void> {
+    public async byCategoryId(categoryId: string): Promise<Product[]> {
         const sql = 'select * from products WHERE category_id=($1)';
         const result = await this.runQuery(sql, [categoryId]);
         return result;
