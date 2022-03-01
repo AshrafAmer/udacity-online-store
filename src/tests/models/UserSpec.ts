@@ -10,12 +10,7 @@ describe("User Model Tests", () => {
 
     it("index method should return list of users", async() => {
         const result = await user.index();
-        expect(result.length).toEqual(3);
-    });
-
-    it("show method should return users data", async() => {
-        const result = await user.show(1);
-        expect(result.id).toEqual(1);
+        expect(result).toEqual([]);
     });
 
     it("create method should create new user", async() => {
@@ -29,11 +24,17 @@ describe("User Model Tests", () => {
         expect(result.username).toEqual('test@jasmine');
     });
 
+    it("show method should return users data", async() => {
+        const users = await user.index();
+        const result = await user.show(users[0].id);
+        expect(result.username).toEqual('test@jasmine');
+    });
+
     it("delete method should delete user data", async() => {
         // before delete
         const users = await user.index();
         const usersCount = users.length;
-        const result = await user.delete(users[2].id);
+        const result = await user.delete(users[0].id);
 
         // after delete
         const usersAfterDelete = await user.index();

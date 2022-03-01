@@ -9,7 +9,7 @@ export class OrderItem extends Base {
     protected table = 'order_items';
     protected createSql = 
         `INSERT INTO order_items (order_id, product_id, quantity, amount)
-        VALUES($1, $2, $3) RETURNING *`;
+        VALUES($1, $2, $3, $4) RETURNING *`;
 
     public async createOrderItem(item: OrderItemType): Promise<void> {        
         this.setCreateConfig([item.orderId, item.productId, item.quantity, item.amount]);
