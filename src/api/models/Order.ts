@@ -14,7 +14,7 @@ export class Order extends Base {
         this.setCreateConfig([order.userId, order.status, order.totalAmount]);
     }
 
-    public async allUserOrders(userId: string): Promise<void> {
+    public async allUserOrders(userId: string): Promise<Order[]> {
         const sql = `SELECT orders.*, items.quantity, items.amount, items.product_id
             FROM orders
             INNER JOIN order_items As items
@@ -24,7 +24,7 @@ export class Order extends Base {
         return result;
     }
 
-    public async userCompletedOrders(userId: string): Promise<void> {
+    public async userCompletedOrders(userId: string): Promise<Order[]> {
         const sql = `SELECT orders.*, items.quantity, items.amount, items.product_id
         FROM orders
         INNER JOIN order_items As items
