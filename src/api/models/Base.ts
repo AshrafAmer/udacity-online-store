@@ -4,10 +4,14 @@ import Client from './../../database/database';
 
 export abstract class Base {
 
+    /*
+        # This abstract class use `any` type => but childs classes custom any type to data type.
+    */
+
     protected static instance: Base;
     protected abstract table: string;
     protected abstract createSql: string;
-    public abstract validate(body: any): void;
+    public abstract validate(body: object): void;
     private createConfig: any[] = [];
 
     public static createObject(): Base {
@@ -49,7 +53,8 @@ export abstract class Base {
         return this.createConfig;
     }
 
-    protected async runQuery(sql: string, options?: any[]): Promise<any> {
+
+    protected async runQuery(sql: string, options?: any[]): Promise<any[]> {
         try {
             const connection = await Client.connect();
             let result: QueryResult;
