@@ -1,3 +1,4 @@
+import jwt from 'jsonwebtoken';
 import express, { NextFunction, Request, Response } from 'express';
 import { Product } from '../models/Product';
 import { Product as ProductType } from '../types/Product'; 
@@ -18,8 +19,12 @@ productRouter.get(
 productRouter.get(
     '/top-products',
     async (req: Request, res: Response) => {
-        const products = await productInstance.topFive();
-        res.json(products);
+        try {
+            const products = await productInstance.topFive();
+            res.json(products);
+        } catch ( err ) {
+            res.status(400).send(err);
+        }
     }
 );
 
@@ -28,10 +33,15 @@ productRouter.get(
     async (req: Request, res: Response) => {
         const id = req.params.id;
         if ( !id ) {
-            res.send(new RequiredParamsIdError('products'));
+            return res.status(400).send(new RequiredParamsIdError('products'));
         }
-        const products = await productInstance.byCategoryId(id);
-        res.json(products);
+        
+        try {
+            const products = await productInstance.byCategoryId(id);
+            res.json(products);
+        } catch ( err ) {
+            res.status(400).send(err);
+        }
     }
 );
 
@@ -40,7 +50,7 @@ productRouter.get(
     async (req: Request, res: Response) => {
         const id = req.params.id;
         if ( !id ) {
-            res.send(new RequiredParamsIdError('products'));
+            return res.status(400).send(new RequiredParamsIdError('products'));
         }
 
         try {
@@ -54,12 +64,17 @@ productRouter.get(
 
 productRouter.post(
     '/',
-    async (req: Request, res: Response, next: NextFunction) => {
-
-        await validateAuth(req, res, next);
-        const { name, price, categoryId } = req.body;
-        
+    async (req: Request, res: Response, next: NextFunction) => { 
         try {
+            jwt.verify(`${req.headers._token}`, `${process.env.JWT_TOKEN_SECRET}`);
+        } catch (err) {
+            return res.status(401).json({message: 'un-authorized user'});
+        }
+
+        try {
+            await validateAuth(req, res, next);
+            const { name, price, categoryId } = req.body;
+
             const productDate: ProductType = { name, price, categoryId };
             await productInstance.validate(productDate);
             await productInstance.createProduct(productDate);

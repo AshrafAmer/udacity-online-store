@@ -10,10 +10,14 @@ orderRouter.get(
     async (req: Request, res: Response) => {
         const id = req.params.id;
         if ( !id ) {
-            res.send(new RequiredParamsIdError('orders'));
+            return res.send(new RequiredParamsIdError('orders'));
         }
-        const orders = await productInstance.allUserOrders(id);
-        res.json(orders);
+        try {
+            const orders = await productInstance.allUserOrders(id);
+            res.json(orders);
+        } catch (err) {
+            return res.status(400).json(err);
+        }
     }
 );
 
@@ -22,10 +26,15 @@ orderRouter.get(
     async (req: Request, res: Response) => {
         const id = req.params.id;
         if ( !id ) {
-            res.send(new RequiredParamsIdError('orders'));
+            return res.send(new RequiredParamsIdError('orders'));
         }
-        const orders = await productInstance.userCompletedOrders(id);
-        res.json(orders);
+
+        try {
+            const orders = await productInstance.userCompletedOrders(id);
+            res.json(orders);
+        } catch (err) {
+            return res.status(400).json(err);
+        }
     }
 );
 

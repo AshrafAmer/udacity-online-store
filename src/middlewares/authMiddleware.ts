@@ -6,6 +6,6 @@ export function validateAuth(req: Request, res: Response, next: NextFunction) {
         jwt.verify(`${req.headers._token}`, `${process.env.JWT_TOKEN_SECRET}`);
         next();
     } catch (err) {
-        res.status(402).json({message: 'un-authorized user'});
+        return res.status(401).json({message: 'un-authorized user'});
     }
 }
