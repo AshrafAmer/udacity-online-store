@@ -37,17 +37,27 @@
 categories | #id | #name
 --- | --- | ---
 
+- ```categories( id SERIAL PRIMARY KEY, name VARCHAR(50) );```
+
 products | #id | #name | #price | #category_id
 --- | --- | --- | --- | ---
+
+- ```products( id SERIAL PRIMARY KEY, name VARCHAR(50), price float(10), category_id INT );```
 
 orders | #id | #user_id | #status | #total_amount
 --- | --- | --- | --- | ---
 
+- ```  orders(id SERIAL PRIMARY KEY, user_id INT, status VARCHAR(10), total_amount float(10)); ```
+
 order_items | #id | #order_id | #product_id | #quantity | #amount
 --- | --- | --- | --- | --- | ---
 
+- ``` order_items( id SERIAL PRIMARY KEY,order_id INT, product_id INT, quantity INT, amount float(10)); ```
+
 users | #id | #first_name | #last_name | #username | #password
 --- | --- | --- | --- | --- | ---
+
+- ``` users(id SERIAL PRIMARY KEY,firstName VARCHAR(50),lastName VARCHAR(50),username VARCHAR(200),password VARCHAR(300)); ```
 
 ### 3. Database Relations
  - categories has many products (1-m).
@@ -56,6 +66,7 @@ users | #id | #first_name | #last_name | #username | #password
 
 ## DataBase Setup:
 - host: `127.0.0.1`
+- port: `5432`
 - driver: `pg`
 - user: `udacity`
 - password: `udacityPass`
