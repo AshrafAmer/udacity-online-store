@@ -9,8 +9,12 @@ const categoryInstance = Category.createObject() as Category;
 categoryRouter.get(
     '/',
     async (req: Request, res: Response) => {
-        const categories = await categoryInstance.index();
-        res.json(categories);
+        try { 
+            const categories = await categoryInstance.index();
+            res.json(categories);
+        } catch (err) {
+            res.status(400).send(err);
+        }
     }
 );
 
@@ -19,7 +23,7 @@ categoryRouter.get(
     async (req: Request, res: Response) => {
         const id = req.params.id;
         if ( !id ) {
-            res.send(new RequiredParamsIdError('categories'));
+            return res.send(new RequiredParamsIdError('categories'));
         }
 
         try {

@@ -1,6 +1,8 @@
 # Storefront Backend Project
 
-## Getting Started (How it works)
+## Getting Started (How it works?)
+
+### package installation instructions:
 
 1- Clone this project to your machine.
 <br>
@@ -30,4 +32,15 @@
 
 ## Server Config:
 - PORT: `3000`
+- Postgres PORT: `5432`
 - Server run on Address: `0.0.0.0:3000`
+
+## Environment Setup
+
+### how to setup and connect to the database?
+
+- create databases as explained in `REQUIREMENTS.md`.
+- navigate to `src/database/config` and set database config data for `prod`, `test` and `dev`.
+- Run: `yarn db.migrate` and `yarn db.migrate-test`.
+
+### 
