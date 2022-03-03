@@ -22,29 +22,45 @@ export abstract class Base {
 
     public async index(): Promise<any[]> {
         const indexSql = `SELECT * FROM ${this.table}`;
-        const result = await this.runQuery(indexSql);
-        return result;
+        try {
+            const result = await this.runQuery(indexSql);
+            return result;
+        } catch(err) {
+            throw err;
+        }
     }
 
     public async show(id: string|number): Promise<any> {
         const showSql = `SELECT * FROM ${this.table} WHERE id=($1)`;
-        const result = await this.runQuery(showSql, [id]);
-        if ( !result.length ) {
-            throw new NoExistDataForThisIdError(this.table, id);
+        try {
+            const result = await this.runQuery(showSql, [id]);
+            if ( !result.length ) {
+                throw new NoExistDataForThisIdError(this.table, id);
+            }
+            return result[0];
+        } catch(err) {
+            throw err;
         }
-        return result[0];
     }
 
     public async create(): Promise<any> {
-        const options = await this.getCreateConfig();
-        const result = await this.runQuery(this.createSql, options);
-        return result[0];
+        try{
+            const options = await this.getCreateConfig();
+            const result = await this.runQuery(this.createSql, options);
+            return result[0];
+        } catch(err) {
+            throw err;
+        }
     }
 
     public async delete(id: string|number): Promise<any> {
-        const deleteSql = `DELETE FROM ${this.table} WHERE id=($1)`;
-        const result = await this.runQuery(deleteSql, [id]);
-        return result[0];
+        try{
+            const deleteSql = `DELETE FROM ${this.table} WHERE id=($1)`;
+            const result = await this.runQuery(deleteSql, [id]);
+            return result[0];
+        } catch(err) {
+            throw err;
+        }
     }
 
     protected async setCreateConfig(options: any[]): Promise<void>{

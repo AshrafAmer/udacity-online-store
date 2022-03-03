@@ -23,18 +23,23 @@ export class User extends Base {
     }
 
     async authenticate(username: string, password: string): Promise<UserType | null> {
-        const sql = 'SELECT password FROM users WHERE username=($1)'
-        const result = await this.runQuery(sql, [username]);
-        const pepper = process.env.BCRYPT_PASSWORD;
+        const sql = 'SELECT password FROM users WHERE username=($1)';
 
-        if(result.length) {
-            const user = result[0];
-            if (bcrypt.compareSync(password+pepper, user.password)) {
-                return user;
+        try{
+            const result = await this.runQuery(sql, [username]);
+            const pepper = process.env.BCRYPT_PASSWORD;
+
+            if(result.length) {
+                const user = result[0];
+                if (bcrypt.compareSync(password+pepper, user.password)) {
+                    return user;
+                }
             }
-        }
 
-        return null;
+            return null;
+        } catch(err) {
+            throw err;
+        }
     }
 
     public validate(body: UserType): void {

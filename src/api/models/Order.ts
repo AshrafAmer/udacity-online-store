@@ -20,8 +20,12 @@ export class Order extends Base {
             INNER JOIN order_items As items
             ON orders.id = items.order_id
             WHERE orders.user_id=($1)`;
-        const result = await this.runQuery(sql, [userId]);
-        return result;
+        try{
+            const result = await this.runQuery(sql, [userId]);
+            return result;
+        } catch(err) {
+            throw err;
+        }
     }
 
     public async userCompletedOrders(userId: string): Promise<Order[]> {
@@ -31,8 +35,12 @@ export class Order extends Base {
         ON orders.id = items.order_id
         WHERE orders.user_id=($1) AND orders.status=($2)`;
         
-        const result = await this.runQuery(sql, [userId, 'complete']);
-        return result;
+        try{
+            const result = await this.runQuery(sql, [userId, 'complete']);
+            return result;
+        } catch(err) {
+            throw err;
+        }
     }
 
     public validate(body: OrderType): void {

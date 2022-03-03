@@ -21,14 +21,24 @@ export class Product extends Base {
             INNER JOIN order_items
             ON products.id = order_items.product_id
             order by popular desc limit 5`;
-        const result = await this.runQuery(sql);
-        return result;
+
+        try{
+            const result = await this.runQuery(sql);
+            return result;
+        } catch(err) {
+            throw err;
+        }
     }
 
     public async byCategoryId(categoryId: string): Promise<Product[]> {
         const sql = 'select * from products WHERE category_id=($1)';
-        const result = await this.runQuery(sql, [categoryId]);
-        return result;
+
+        try{
+            const result = await this.runQuery(sql, [categoryId]);
+            return result;
+        } catch(err) {
+            throw err;
+        }
     }
 
     public validate(body: ProductType): void {
