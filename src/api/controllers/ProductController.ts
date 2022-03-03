@@ -72,7 +72,6 @@ productRouter.post(
         }
 
         try {
-            await validateAuth(req, res, next);
             const { name, price, categoryId } = req.body;
 
             const productDate: ProductType = { name, price, categoryId };
